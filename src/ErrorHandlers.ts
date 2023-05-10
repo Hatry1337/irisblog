@@ -1,8 +1,18 @@
 import Express from "express";
-import HTTPError from "./structs/HTTPError";
+import HTTPError from "./structs/HTTPError.js";
+import Joi from "joi";
 
 export function productionHandler(){
     return (err: any, req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+        if(err.name === "ValidationError" && err.isJoi) {
+            let validationError = err as Joi.ValidationError;
+
+            res.status(400);
+            return res.json({
+                message: "Request validation error: " + validationError.message,
+            });
+        }
+
         res.status(err.status || 500);
 
         let response = {
@@ -14,12 +24,22 @@ export function productionHandler(){
             response = Object.assign(response, err.extras);
         }
 
-        res.json(response);
+        return res.json(response);
     }
 }
 
 export function developmentHandler(){
     return (err: any, req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+        if(err.name === "ValidationError" && err.isJoi) {
+            let validationError = err as Joi.ValidationError;
+
+            res.status(400);
+            return res.json({
+                message: "Request validation error: " + validationError.message,
+                error: err
+            });
+        }
+
         res.status(err.status || 500);
 
         let response = {
@@ -31,7 +51,7 @@ export function developmentHandler(){
             response = Object.assign(response, err.extras);
         }
 
-        res.json(response);
+        return res.json(response);
     }
 }
 

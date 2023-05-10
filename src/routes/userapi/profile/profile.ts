@@ -1,14 +1,23 @@
 import Express from "express";
-import { UserAPIRequest } from "../userapi";
-import { User } from "../../../models/User";
-import HTTPError from "../../../structs/HTTPError";
+import { UserAPIRequest } from "../userapi.js";
+import { User } from "../../../models/User.js";
+import HTTPError from "../../../structs/HTTPError.js";
+import { Op } from "sequelize";
 
 const routeProfile = Express.Router();
 
-routeProfile.get("/:userId?", (async (req: UserAPIRequest, res: Express.Response, next: Express.NextFunction) => {
+routeProfile.get("/:usernameOrId?", (async (req: UserAPIRequest, res: Express.Response, next: Express.NextFunction) => {
     let user = await User.findOne({
         where: {
-            userId: req.params.userId || req.userapi.userId
+            [Op.or]:
+                req.params.usernameOrId
+                    ? {
+                        username: req.params.usernameOrId,
+                        userId: req.params.usernameOrId
+                    }
+                    : {
+                        userId: req.userapi.userId,
+                    }
         }
     });
 
@@ -20,6 +29,7 @@ routeProfile.get("/:userId?", (async (req: UserAPIRequest, res: Express.Response
     }
 
     return res.json({
+        id: user.userId,
         username: user.username,
         first_name: user.firstName,
         last_name: user.lastName ?? undefined,

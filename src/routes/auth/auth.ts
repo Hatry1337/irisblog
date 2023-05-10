@@ -1,7 +1,7 @@
 import Express from "express";
 
-import routeAuthRegister from "./register";
-import routeAuthLogin from "./login";
+import routeAuthRegister from "./register.js";
+import routeAuthLogin from "./login.js";
 
 const routeAuth = Express.Router();
 

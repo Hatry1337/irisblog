@@ -1,5 +1,6 @@
 import { Table, Model, Column, DataType, Scopes, HasOne } from "sequelize-typescript";
-import { UserCredentials } from "./UserCredentials";
+import { UserCredentials } from "./UserCredentials.js";
+import { nanoid } from "nanoid";
 
 @Scopes(() => ({
     full: {
@@ -18,12 +19,12 @@ import { UserCredentials } from "./UserCredentials";
 })
 export class User extends Model<User> {
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        defaultValue: () => nanoid()
     })
-    declare userId: number;
+    declare userId: string;
 
     @Column({
         type: DataType.STRING,

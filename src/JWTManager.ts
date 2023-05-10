@@ -3,7 +3,7 @@ import fs from "fs";
 
 export interface IUserJWTPayload {
     username: string;
-    userId: number;
+    userId: string;
 }
 
 export class JWTManager {

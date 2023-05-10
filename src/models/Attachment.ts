@@ -1,5 +1,6 @@
 import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
-import { User } from "./User";
+import { User } from "./User.js";
+import { nanoid } from "nanoid";
 
 export enum AttachmentFileType {
     Image   = "image",
@@ -13,12 +14,12 @@ export enum AttachmentFileType {
 })
 export class Attachment extends Model<Attachment> {
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
+        allowNull: false,
+        defaultValue: () => nanoid()
     })
-    declare attachmentId: number;
+    declare attachmentId: string;
 
     @Column({
         type: DataType.STRING,
@@ -58,10 +59,10 @@ export class Attachment extends Model<Attachment> {
 
     @ForeignKey(() => User)
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         allowNull: false
     })
-    declare uploaderId: number;
+    declare uploaderId: string;
 
 
     @BelongsTo(() => User)

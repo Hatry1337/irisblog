@@ -1,15 +1,16 @@
 import Express from "express";
 import jwt from "jsonwebtoken";
-import HTTPError from "../../structs/HTTPError";
-import {IUserJWTPayload, JWTManager} from "../../JWTManager";
+import HTTPError from "../../structs/HTTPError.js";
+import { IUserJWTPayload, JWTManager } from "../../JWTManager.js";
 
-import routeProfile from "./profile/profile";
+import routeProfile from "./profile/profile.js";
+import routePosts from "./posts/posts.js";
 
 const routeUserAPI = Express.Router();
 
 export interface UserAPIRequest extends Express.Request {
     userapi: {
-        userId: number;
+        userId: string;
         username: string;
     }
 }
@@ -70,6 +71,7 @@ routeUserAPI.use((async (req: UserAPIRequest, res: Express.Response, next: Expre
     return next();
 }) as unknown as Express.RequestHandler);
 
-routeUserAPI.use("/profile",   routeProfile);
+routeUserAPI.use("/profile",    routeProfile);
+routeUserAPI.use("/posts",      routePosts);
 
 export default routeUserAPI;

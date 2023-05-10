@@ -2,12 +2,12 @@ import "dotenv/config";
 import Express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import { developmentHandler, notFoundHandler, productionHandler } from "./ErrorHandlers";
+import { developmentHandler, notFoundHandler, productionHandler } from "./ErrorHandlers.js";
 import log4js from "log4js";
-import { requestLogger } from "./RequestLogger";
-import sequelize from "./database";
-import routeRoot from "./routes/root";
-import { JWTManager } from "./JWTManager";
+import { requestLogger } from "./RequestLogger.js";
+import sequelize from "./database.js";
+import routeRoot from "./routes/root.js";
+import { JWTManager } from "./JWTManager.js";
 
 declare global {
     namespace NodeJS {

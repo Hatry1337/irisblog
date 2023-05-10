@@ -3,9 +3,9 @@ import log4js from "log4js";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 
-import HTTPError from "../../structs/HTTPError";
-import { User } from "../../models/User";
-import { UserCredentials } from "../../models/UserCredentials";
+import HTTPError from "../../structs/HTTPError.js";
+import { User } from "../../models/User.js";
+import { UserCredentials } from "../../models/UserCredentials.js";
 
 const routeAuthRegister = Express.Router();
 const logger = log4js.getLogger("app");
@@ -112,16 +112,7 @@ routeAuthRegister.post("/", async (req, res, next) => {
             username: user.username
         });
     } catch (error: any) {
-        if(error.name === "ValidationError" && error.isJoi) {
-            let validationError = error as Joi.ValidationError;
-
-            return next(new HTTPError(
-                "Request validation error: " + validationError.message,
-                400
-            ));
-        }
-
-        if(error instanceof HTTPError) {
+        if(error instanceof HTTPError || error.isJoi) {
             return next(error);
         }
 

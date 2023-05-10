@@ -1,5 +1,5 @@
 import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
-import { User } from "./User";
+import { User } from "./User.js";
 
 @Table({
     timestamps: true,
@@ -7,10 +7,10 @@ import { User } from "./User";
 export class UserCredentials extends Model<UserCredentials> {
     @ForeignKey(() => User)
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         allowNull: false
     })
-    declare userId: number;
+    declare userId: string;
 
     @Column({
         type: DataType.STRING,

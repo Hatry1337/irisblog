@@ -1,7 +1,7 @@
 import Express from "express";
 
-import routeAuth from "./auth/auth";
-import routeUserAPI from "./userapi/userapi";
+import routeAuth from "./auth/auth.js";
+import routeUserAPI from "./userapi/userapi.js";
 
 const routeRoot = Express.Router();
 
